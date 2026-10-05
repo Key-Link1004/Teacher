@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Thank you, Sir Mark</title>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <style>
+    :root {
+      --bg: #14122b;
+      --bg2: #1e1b3d;
+      --ink: #e9e4ff;
+      --dim: #9a94c8;
+      --lamp: #ffc46b;
+      --rose: #f4a6b8;
+      --paper: #f6ecd9;
+      --pen: #3b2f4a;
+      box-sizing: border-box;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px)
+    }
+
+    @media (prefers-color-scheme:light) {
+      :root:not([data-theme="dark"]) {
+        --bg: #2a2650;
+        --bg2: #383369
+      }
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #14122b;
+      --bg2: #1e1b3d
+    }
+
+    html {
+      height: 100%;
+      scroll-padding-top: env(safe-area-inset-top, 0px)
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: radial-gradient(120% 80% at 50% 0%, var(--bg2), var(--bg));
+      color: var(--ink);
+      font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+      overflow-x: hidden
+    }
+
+    .hand {
+      font-family: "Caveat", "Segoe Print", "Bradley Hand", cursive
+    }
+
+    #fx {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0
+    }
+
+    #fx span {
+      position: absolute;
+      bottom: -40px;
+      color: var(--dim);
+      opacity: .25;
+      animation: up linear infinite
+    }
+
+    #fx span.p {
+      top: -40px;
+      bottom: auto;
+      opacity: .9;
+      animation-name: fall
+    }
+
+    @keyframes up {
+      to {
+        transform: translateY(-110vh) rotate(40deg)
+      }
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(112vh) rotate(260deg)
+      }
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 28px 20px 48px;
+      min-height: 100vh
+    }
+
+    .screen {
+      display: none
+    }
+
+    .screen.on {
+      display: block
+    }
+
+    .term {
+      font-size: 14px;
+      line-height: 1.9;
+      min-height: 240px;
+      padding-top: 12vh
+    }
+
+    .term .ok {
+      color: var(--lamp)
+    }
+
+    .term .c {
+      color: var(--dim)
+    }
+
+    .cur:after {
+      content: "▌";
+      color: var(--lamp);
+      animation: bl 1s steps(1) infinite
+    }
+
+    @keyframes bl {
+      50% {
+        opacity: 0
+      }
+    }
+
+    h1 {
+      font-family: "Caveat", cursive;
+      font-weight: 700;
+      font-size: clamp(46px, 14vw, 68px);
+      line-height: 1;
+      margin: 6vh 0 8px;
+      color: var(--lamp)
+    }
+
+    .sub {
+      color: var(--dim);
+      font-size: 13px;
+      margin: 0 0 30px
+    }
+
+    .menu {
+      display: grid;
+      gap: 14px
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      width: 100%;
+      text-align: left;
+      padding: 18px;
+      border-radius: 18px;
+      border: 1.5px solid #4a4580;
+      background: rgba(255, 255, 255, .04);
+      color: var(--ink);
+      font: inherit;
+      cursor: pointer;
+      transition: transform .15s, border-color .2s
+    }
+
+    .btn:active {
+      transform: scale(.97)
+    }
+
+    .btn:hover {
+      border-color: var(--lamp)
+    }
+
+    .btn:focus-visible,
+    .tile:focus-visible,
+    .go:focus-visible {
+      outline: 3px solid var(--lamp);
+      outline-offset: 3px
+    }
+
+    .btn b {
+      display: block;
+      font-family: "Caveat", cursive;
+      font-size: 30px;
+      font-weight: 700;
+      line-height: 1
+    }
+
+    .btn small {
+      color: var(--dim);
+      font-size: 12px
+    }
+
+    .btn .e {
+      font-size: 34px
+    }
+
+    .btn .t {
+      margin-left: auto;
+      color: var(--lamp);
+      font-size: 22px;
+      opacity: 0
+    }
+
+    .btn.done .t {
+      opacity: 1
+    }
+
+    .last {
+      margin-top: 22px;
+      display: none
+    }
+
+    .last.show {
+      display: flex;
+      border-color: var(--rose);
+      animation: glow 2s ease-in-out infinite
+    }
+
+    @keyframes glow {
+      50% {
+        box-shadow: 0 0 28px rgba(244, 166, 184, .35)
+      }
+    }
+
+    .back {
+      background: none;
+      border: 0;
+      color: var(--dim);
+      font: inherit;
+      font-size: 13px;
+      padding: 8px 0;
+      cursor: pointer
+    }
+
+    h2 {
+      font-family: "Caveat", cursive;
+      font-size: 42px;
+      margin: 6px 0 4px;
+      color: var(--lamp)
+    }
+
+    .go {
+      display: block;
+      margin: 20px auto 0;
+      padding: 13px 26px;
+      border-radius: 999px;
+      border: 0;
+      background: var(--lamp);
+      color: #3a2600;
+      font: 500 14px "JetBrains Mono", monospace;
+      cursor: pointer
+    }
+
+    /* gifts */
+    .box {
+      display: block;
+      margin: 26px auto;
+      font-size: 110px;
+      line-height: 1;
+      background: none;
+      border: 0;
+      cursor: pointer;
+      filter: drop-shadow(0 10px 24px rgba(255, 196, 107, .35))
+    }
+
+    .box.shake {
+      animation: shake .6s
+    }
+
+    @keyframes shake {
+      20% {
+        transform: rotate(-8deg)
+      }
+
+      40% {
+        transform: rotate(8deg)
+      }
+
+      60% {
+        transform: rotate(-6deg) scale(1.1)
+      }
+
+      80% {
+        transform: rotate(4deg)
+      }
+    }
+
+    .tiles {
+      display: none;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin: 12px 0
+    }
+
+    .tiles.on {
+      display: grid
+    }
+
+    .tile {
+      aspect-ratio: 1;
+      font-size: 30px;
+      border-radius: 14px;
+      border: 1.5px solid #4a4580;
+      background: rgba(255, 255, 255, .05);
+      cursor: pointer;
+      animation: pop .5s backwards
+    }
+
+    .tile.seen {
+      border-color: var(--lamp);
+      background: rgba(255, 196, 107, .12)
+    }
+
+    @keyframes pop {
+      from {
+        transform: scale(0) rotate(-30deg)
+      }
+    }
+
+    .note {
+      background: var(--paper);
+      color: var(--pen);
+      border-radius: 6px;
+      padding: 20px 20px 22px;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, .35);
+      transform: rotate(-1deg);
+      min-height: 110px;
+      font-size: 26px;
+      line-height: 1.25
+    }
+
+    .note strong {
+      display: block;
+      font-size: 30px;
+      margin-bottom: 6px
+    }
+
+    .count {
+      text-align: center;
+      color: var(--dim);
+      font-size: 12px;
+      margin-top: 14px
+    }
+
+    /* letter */
+    .paper {
+      background: var(--paper);
+      color: var(--pen);
+      border-radius: 4px;
+      padding: 26px 22px;
+      box-shadow: 0 18px 36px rgba(0, 0, 0, .4);
+      font-size: 25px;
+      line-height: 1.35;
+      min-height: 300px;
+      background-image: repeating-linear-gradient(transparent 0 33px, rgba(120, 100, 150, .18) 33px 34px)
+    }
+
+    .paper p {
+      margin: 0 0 12px
+    }
+
+    .sign {
+      text-align: right;
+      font-size: 32px;
+      font-weight: 700
+    }
+
+    .skip {
+      color: var(--dim);
+      font-size: 12px;
+      text-align: center;
+      margin-top: 14px
+    }
+
+    /* lessons */
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      font: inherit;
+      font-size: 13px;
+      line-height: 1.7
+    }
+
+    .code {
+      background: rgba(0, 0, 0, .3);
+      border: 1px solid #3a3670;
+      border-radius: 14px;
+      padding: 16px;
+      min-height: 150px
+    }
+
+    .code .l {
+      display: block;
+      animation: in .5s both;
+      margin-bottom: 10px
+    }
+
+    .k {
+      color: var(--rose)
+    }
+
+    .s {
+      color: var(--lamp)
+    }
+
+    .m {
+      color: var(--dim)
+    }
+
+    @keyframes in {
+      from {
+        opacity: 0;
+        transform: translateY(6px)
+      }
+    }
+
+    /* finale */
+    .fin {
+      text-align: center;
+      padding-top: 12vh
+    }
+
+    .fin h1 {
+      margin-top: 3vh
+    }
+
+    .fin .code {
+      text-align: left;
+      margin: 26px 0;
+      min-height: 0
+    }
+
+    @media (prefers-reduced-motion:reduce) {
+      * {
+        animation: none !important;
+        transition: none !important
+      }
+
+      .tile {
+        animation: none
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="fx" aria-hidden="true"></div>
+  <main>
+
+    <section id="boot" class="screen on">
+      <div class="term" id="term" aria-live="polite"></div>
+    </section>
+
+    <section id="home" class="screen">
+      <h1>Hello, Sir Mark.</h1>
+      <p class="sub">// something small, compiled just for you</p>
+      <div class="menu">
+        <button class="btn" data-go="gifts"><span class="e">🎁</span><span><b>Gifts</b><small>five little things, open
+              them</small></span><span class="t">✓</span></button>
+        <button class="btn" data-go="letter"><span class="e">💌</span><span><b>A message</b><small>written with a lot of
+              thought</small></span><span class="t">✓</span></button>
+        <button class="btn" data-go="lessons"><span class="e">🌱</span><span><b>What you taught me</b><small>not only
+              the code</small></span><span class="t">✓</span></button>
+      </div>
+      <button class="btn last" id="lastBtn" data-go="finale"><span class="e">💝</span><span><b>One last
+            thing</b><small>you opened everything</small></span></button>
+    </section>
+
+    <section id="gifts" class="screen">
+      <button class="back" data-go="home">← back</button>
+      <h2>Gifts for you</h2>
+      <p class="sub">Tap the box.</p>
+      <button class="box" id="box" aria-label="Open the gift box">🎁</button>
+      <div class="tiles" id="tiles"></div>
+      <div class="note hand" id="giftNote" hidden></div>
+      <div class="count" id="giftCount"></div>
+    </section>
+
+    <section id="letter" class="screen">
+      <button class="back" data-go="home">← back</button>
+      <h2>Dear Sir Mark,</h2>
+      <div class="paper hand" id="paper"></div>
+      <div class="skip" id="skip">tap the paper to finish writing</div>
+    </section>
+
+    <section id="lessons" class="screen">
+      <button class="back" data-go="home">← back</button>
+      <h2>What you taught me</h2>
+      <p class="sub">// lessons that never appeared in the syllabus</p>
+      <div class="code">
+        <pre id="lessonCode"></pre>
+      </div>
+      <button class="go" id="nextLesson">run next lesson</button>
+    </section>
+
+    <section id="finale" class="screen">
+      <div class="fin">
+        <div class="hand" style="font-size:30px;color:var(--rose)">Happy Teachers' Day</div>
+        <h1>Thank you, Sir Mark.</h1>
+        <div class="code">
+          <pre><span class="k">function</span> <span class="s">teacher</span>() {
+  <span class="k">return</span> <span class="s">"the reason I kept going"</span>;
+}
+
+<span class="m">// Process finished with exit code 0</span>
+<span class="m">// 0 errors. 1 grateful student. ♥</span></pre>
+        </div>
+        <div class="hand" style="font-size:32px" id="finSign"></div>
+        <button class="go" data-go="home">replay</button>
+      </div>
+    </section>
+
+  </main>
+  <script>
+    (function () {
+      var TEACHER = "Sir Mark";
+      var q = new URLSearchParams(location.search);
+      var FROM = (q.get("from") || "Your student").slice(0, 40); // edit this, or use ?from=YourName
+      var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var $ = function (s) { return document.querySelector(s) };
+      var done = { gifts: false, letter: false, lessons: false };
+      var timers = [];
+      function later(f, ms) { var t = setTimeout(f, ms); timers.push(t); return t }
+      function clearT() { timers.forEach(clearTimeout); timers = [] }
+
+      /* floating background: code symbols + petals */
+      var fx = $("#fx");
+      function drift(list, n, cls) {
+        for (var i = 0; i < n; i++) {
+          var s = document.createElement("span"); s.textContent = list[i % list.length]; if (cls) s.className = cls;
+          s.style.left = Math.random() * 100 + "%"; s.style.fontSize = (14 + Math.random() * 18) + "px"; s.style.animationDuration = (cls ? 9 : 16) + Math.random() * 10 + "s"; s.style.animationDelay = (-Math.random() * 20) + "s"; fx.appendChild(s)
+        }
+      }
+      if (!reduce) drift(["{ }", ";", "</>", "()", "=>", "[]", "0 1"], 14);
+      function petals() { if (reduce) return; drift(["🌸", "✨", "🤍", "⭐", "🌷"], 22, "p") }
+
+      /* screens */
+      function show(id) {
+        clearT();
+        document.querySelectorAll(".screen").forEach(function (s) { s.classList.toggle("on", s.id === id) });
+        scrollTo(0, 0);
+        if (id === "letter") writeLetter();
+        if (id === "lessons" && !lessonStarted) nextLesson();
+        if (id === "finale") { petals(); $("#finSign").textContent = "— " + FROM }
+        if (id === "home") refresh();
+      }
+      function refresh() {
+        document.querySelectorAll(".btn[data-go]").forEach(function (b) { b.classList.toggle("done", !!done[b.dataset.go]) });
+        $("#lastBtn").classList.toggle("show", done.gifts && done.letter && done.lessons);
+      }
+      document.addEventListener("click", function (e) { var b = e.target.closest("[data-go]"); if (b) show(b.dataset.go) });
+
+      /* boot sequence */
+      var lines = [
+        ['<span class="c">$</span> compile gratitude.js', 500],
+        ['<span class="c">&gt;</span> reading 1 teacher... <span class="ok">found: ' + TEACHER + '</span>', 900],
+        ['<span class="c">&gt;</span> checking for patience... <span class="ok">overflow detected</span>', 900],
+        ['<span class="c">&gt;</span> missing semicolons forgiven: <span class="ok">all of them</span>', 900],
+        ['<span class="ok">Build succeeded. 0 errors, 1 heart.</span>', 1000]
+      ];
+      function boot() {
+        var t = $("#term"); t.innerHTML = ""; var i = 0, delay = 0;
+        function step() {
+          if (i >= lines.length) { later(function () { show("home") }, 900); return }
+          var d = document.createElement("div"); d.innerHTML = lines[i][0]; t.appendChild(d);
+          var w = reduce ? 0 : lines[i][1]; i++; later(step, w);
+        }
+        step();
+      }
+
+      /* gifts */
+      var gifts = [
+        ["☕", "A cup of coffee", "For every long day you still showed up with energy for us."],
+        ["🐞", "A tiny bug", "For the patience, every time my code broke and you helped me find the one missing semicolon."],
+        ["💡", "A bright idea", "For all the moments you made something finally click."],
+        ["🌱", "A seedling", "For believing I could grow, before I believed it myself."],
+        ["🍎", "An apple", "The classic one. For every lesson, big and small."]
+      ];
+      var seen = {};
+      $("#box").addEventListener("click", function () {
+        var b = this; b.classList.add("shake");
+        later(function () {
+          b.style.display = "none"; $(".sub", $("#gifts")) && 0;
+          var t = $("#tiles"); t.classList.add("on"); t.innerHTML = "";
+          gifts.forEach(function (g, i) {
+            var el = document.createElement("button"); el.className = "tile"; el.textContent = g[0]; el.setAttribute("aria-label", g[1]);
+            el.style.animationDelay = (i * .1) + "s";
+            el.addEventListener("click", function () {
+              seen[i] = 1; el.classList.add("seen");
+              var n = $("#giftNote"); n.hidden = false;
+              n.innerHTML = "<strong></strong><span></span>";
+              n.firstChild.textContent = g[0] + " " + g[1]; n.lastChild.textContent = g[2];
+              var c = Object.keys(seen).length; $("#giftCount").textContent = c + " of 5 opened";
+              if (c === 5) { done.gifts = true; $("#giftCount").textContent = "all 5 opened ♥ — go back for more" }
+            });
+            t.appendChild(el);
+          });
+          $("#giftCount").textContent = "tap each one";
+        }, reduce ? 0 : 650);
+      });
+      $("#gifts .sub").textContent = "Tap the box.";
+
+      /* letter */
+      var letter = [
+        "Hello, Sir Mark.",
+        "I still remember the first time I typed a line of code. I had no idea what I was doing, and you never once made me feel small for it.",
+        "You taught me that an error isn't a failure. It's only the computer asking me to look a little closer. Somewhere along the way, I started believing that about myself too.",
+        "Thank you for explaining things a third time like it was the first. Thank you for staying until the program finally ran.",
+        "You didn't just teach me how to code. You taught me how to keep going.",
+        "I hope that one day I can make you proud.",
+        "Happy Teachers' Day, Sir."
+      ];
+      var typing = false, skipFn = null;
+      function writeLetter() {
+        var p = $("#paper"); p.innerHTML = ""; $("#skip").style.visibility = "visible";
+        var pi = 0, ci = 0, el = null, cancelled = false; typing = true;
+        function finish() {
+          cancelled = true; typing = false; p.innerHTML = "";
+          letter.forEach(function (t) { var e = document.createElement("p"); e.textContent = t; p.appendChild(e) });
+          var s = document.createElement("p"); s.className = "sign"; s.textContent = "— " + FROM; p.appendChild(s);
+          $("#skip").style.visibility = "hidden"; done.letter = true;
+        }
+        skipFn = finish;
+        if (reduce) { finish(); return }
+        function tick() {
+          if (cancelled) return;
+          if (pi >= letter.length) {
+            var s = document.createElement("p"); s.className = "sign"; s.textContent = "— " + FROM; p.appendChild(s);
+            typing = false; done.letter = true; $("#skip").style.visibility = "hidden"; return
+          }
+          if (ci === 0) { el = document.createElement("p"); p.appendChild(el) }
+          el.textContent = letter[pi].slice(0, ++ci);
+          if (ci >= letter[pi].length) { pi++; ci = 0; later(tick, 700) } else later(tick, 38);
+        }
+        tick();
+      }
+      $("#paper").addEventListener("click", function () { if (typing && skipFn) { clearT(); skipFn() } });
+
+      /* lessons */
+      var lessons = [
+        '<span class="k">while</span> (!success) { <span class="s">tryAgain</span>(); }\n<span class="m">// never give up, even on the third error</span>',
+        '<span class="m">// a bug is just a lesson in disguise</span>',
+        '<span class="k">if</span> (someoneIsStuck) { <span class="s">help</span>(); }\n<span class="m">// you always did</span>',
+        '<span class="k">const</span> patience = <span class="s">Infinity</span>;\n<span class="m">// yours</span>',
+        '<span class="s">console</span>.log(<span class="s">"I believe in you"</span>);\n<span class="m">// you said it without saying it</span>'
+      ];
+      var li = 0, lessonStarted = false;
+      function nextLesson() {
+        lessonStarted = true;
+        if (li >= lessons.length) return;
+        var d = document.createElement("span"); d.className = "l"; d.innerHTML = lessons[li++];
+        $("#lessonCode").appendChild(d);
+        if (li >= lessons.length) { done.lessons = true; var b = $("#nextLesson"); b.textContent = "back to the start"; b.onclick = function () { show("home") } }
+      }
+      $("#nextLesson").addEventListener("click", function () { if (li < lessons.length) nextLesson() });
+
+      boot();
+    })();
+  </script>
+</body>
+
+</html>
