@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Thank you, Sir Mark</title>
+  <title>Thank you, Sir Gelo</title>
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap">
   <style>
@@ -461,8 +461,8 @@
     </section>
 
     <section id="home" class="screen">
-      <h1>Hello, Sir Mark.</h1>
-      <p class="sub">// something small, compiled just for you</p>
+      <h1>Hello, Sir Gelo.</h1>
+      <p class="sub"> <something small, compiled just for you></p>
       <div class="menu">
         <button class="btn" data-go="gifts"><span class="e">🎁</span><span><b>Gifts</b><small>five little things, open
               them</small></span><span class="t">✓</span></button>
@@ -487,7 +487,7 @@
 
     <section id="letter" class="screen">
       <button class="back" data-go="home">← back</button>
-      <h2>Dear Sir Mark,</h2>
+      <h2>Dear Sir Gelo,</h2>
       <div class="paper hand" id="paper"></div>
       <div class="skip" id="skip">tap the paper to finish writing</div>
     </section>
@@ -505,7 +505,7 @@
     <section id="finale" class="screen">
       <div class="fin">
         <div class="hand" style="font-size:30px;color:var(--rose)">Happy Teachers' Day</div>
-        <h1>Thank you, Sir Mark.</h1>
+        <h1>Thank you, Sir Gelo.</h1>
         <div class="code">
           <pre><span class="k">function</span> <span class="s">teacher</span>() {
   <span class="k">return</span> <span class="s">"the reason I kept going"</span>;
@@ -522,9 +522,9 @@
   </main>
   <script>
     (function () {
-      var TEACHER = "Sir Mark";
+      var TEACHER = "Sir Gelo";
       var q = new URLSearchParams(location.search);
-      var FROM = (q.get("from") || "Your student").slice(0, 40); // edit this, or use ?from=YourName
+      var FROM = (q.get("from") || "Esme").slice(0, 40); // edit this, or use ?from=YourName
       var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
       var $ = function (s) { return document.querySelector(s) };
       var done = { gifts: false, letter: false, lessons: false };
@@ -611,7 +611,7 @@
 
       /* letter */
       var letter = [
-        "Hello, Sir Mark.",
+        "Hello, Sir Gelo.",
         "I still remember the first time I typed a line of code. I had no idea what I was doing, and you never once made me feel small for it.",
         "You taught me that an error isn't a failure. It's only the computer asking me to look a little closer. Somewhere along the way, I started believing that about myself too.",
         "Thank you for explaining things a third time like it was the first. Thank you for staying until the program finally ran.",
